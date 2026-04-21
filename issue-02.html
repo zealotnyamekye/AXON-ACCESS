@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Your Brain on Sleep · Axon Access Issue 02</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --purple: #2E6FBF;
+    --purple-light: #6AAEE8;
+    --purple-dim: #0D2340;
+    --teal: #F5C842;
+    --teal-dim: #5C3D00;
+    --cream: #F5F7FA;
+    --ink: #080E1A;
+    --mid: #3A4F6A;
+    --muted: #7A92AB;
+    --card: #FFFFFF;
+    --accent: #FF8C61;
+    --yellow: #FFD166;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--ink);
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    position: relative;
+    overflow: hidden;
+    padding: 0 clamp(1.5rem, 5vw, 5rem);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 30%, rgba(46,111,191,0.3) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 40% at 10% 80%, rgba(245,200,66,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232E6FBF' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: #fff;
+    letter-spacing: 0.05em;
+  }
+
+  .logo span { color: var(--teal); }
+
+  .issue-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+  }
+
+  .hero-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 0 3rem;
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+  }
+
+  .series-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .series-tag::before {
+    content: '';
+    width: 32px;
+    height: 1.5px;
+    background: var(--teal);
+    display: block;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    color: #fff;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--purple-light);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--teal);
+    color: var(--ink);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    padding: 0.9rem 2rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: fit-content;
+  }
+
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,200,66,0.3); }
+  .hero-cta svg { width: 16px; height: 16px; }
+
+  .hero-bottom {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .hero-meta strong { color: rgba(255,255,255,0.5); font-weight: 500; }
+
+  .orb {
+    position: absolute;
+    right: clamp(1rem, 8vw, 8rem);
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(200px, 30vw, 380px);
+    height: clamp(200px, 30vw, 380px);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, rgba(106,174,232,0.25), rgba(46,111,191,0.12) 50%, transparent 70%);
+    border: 1px solid rgba(46,111,191,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(5rem, 15vw, 9rem);
+    animation: float 6s ease-in-out infinite;
+    z-index: 1;
+  }
+
+  @keyframes float {
+    0%,100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-52%) translateX(-10px); }
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 2rem);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--purple);
+    opacity: 0.25;
+    max-width: 60px;
+  }
+
+  section { margin-bottom: 4.5rem; }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    color: var(--ink);
+  }
+
+  p {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--mid);
+    margin-bottom: 1.1rem;
+  }
+
+  strong { font-weight: 500; color: var(--ink); }
+  em { font-style: italic; color: var(--purple); }
+
+  .pull-quote {
+    border-left: 4px solid var(--teal);
+    padding: 1.25rem 1.75rem;
+    background: rgba(245,200,66,0.06);
+    border-radius: 0 12px 12px 0;
+    margin: 2rem 0;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--teal-dim);
+    line-height: 1.7;
+  }
+
+  .highlight-card {
+    background: var(--purple-dim);
+    border-radius: 20px;
+    padding: 2.5rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    margin: 2.5rem 0;
+  }
+
+  .highlight-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(46,111,191,0.35);
+  }
+
+  .highlight-card .card-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.75rem;
+  }
+
+  .highlight-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    position: relative;
+    z-index: 1;
+  }
+
+  .highlight-card p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+  }
+
+  .highlight-card .tag {
+    display: inline-block;
+    margin-top: 1.25rem;
+    padding: 0.4rem 1rem;
+    background: rgba(245,200,66,0.15);
+    border: 1px solid rgba(245,200,66,0.35);
+    border-radius: 100px;
+    font-size: 0.78rem;
+    color: var(--teal);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .myth-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(46,111,191,0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 1.5rem;
+  }
+
+  .myth-col { padding: 2rem; }
+  .myth-col.myth { background: #FFF5F0; }
+  .myth-col.truth { background: #F0F5FF; }
+
+  .myth-col .col-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .myth .col-label { color: var(--accent); }
+  .truth .col-label { color: var(--purple); }
+  .myth-col p { font-size: 0.95rem; margin: 0; line-height: 1.75; }
+
+  .careers-list {
+    display: grid;
+    gap: 1px;
+    background: rgba(46,111,191,0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 1.5rem;
+  }
+
+  .career-row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    background: #fff;
+    transition: background 0.2s;
+  }
+
+  .career-row:hover { background: rgba(46,111,191,0.04); }
+
+  .career-title {
+    padding: 1.25rem 1.5rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--purple);
+    border-right: 1px solid rgba(46,111,191,0.1);
+    display: flex;
+    align-items: center;
+  }
+
+  .career-desc {
+    padding: 1.25rem 1.5rem;
+    font-size: 0.92rem;
+    color: var(--mid);
+    font-weight: 300;
+    line-height: 1.65;
+    display: flex;
+    align-items: center;
+  }
+
+  .exercise-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid rgba(46,111,191,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .step:hover { transform: translateX(4px); box-shadow: 0 4px 20px rgba(46,111,191,0.08); }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--purple-light);
+    line-height: 1;
+    min-width: 2rem;
+    opacity: 0.5;
+  }
+
+  .step-text {
+    font-size: 0.98rem;
+    color: var(--mid);
+    line-height: 1.7;
+    font-weight: 300;
+    padding-top: 0.2rem;
+  }
+
+  .step-text strong { font-weight: 600; color: var(--ink); }
+
+  .why-box {
+    margin-top: 1.5rem;
+    background: linear-gradient(135deg, var(--purple-dim), #080E1A);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .why-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .why-box p { color: rgba(255,255,255,0.7); margin: 0; font-size: 0.95rem; }
+  .why-box strong { color: #fff; }
+
+  footer {
+    background: var(--ink);
+    padding: 3rem clamp(1.5rem, 5vw, 5rem);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(46,111,191,0.2), transparent 65%);
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-logo span { color: var(--teal); }
+
+  .footer-tagline {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .next-issue {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+    border: 1px solid rgba(245,200,66,0.3);
+    padding: 0.6rem 1.4rem;
+    border-radius: 100px;
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-body > * {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .series-tag { animation-delay: 0.1s; }
+  .hero h1 { animation-delay: 0.25s; }
+  .hero-sub { animation-delay: 0.4s; }
+  .hero-cta { animation-delay: 0.55s; }
+
+  @media (max-width: 640px) {
+    .orb { display: none; }
+    .myth-grid { grid-template-columns: 1fr; }
+    .career-row { grid-template-columns: 1fr; }
+    .career-title { border-right: none; border-bottom: 1px solid rgba(46,111,191,0.1); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <nav class="topbar">
+    <div class="logo">AXON<span>ACCESS</span></div>
+    <div class="issue-badge">Issue 02 · Neuroscience for Teens</div>
+  </nav>
+
+  <div class="hero-body">
+    <div class="series-tag">Monthly Neuroscience Series</div>
+    <h1>Your Brain<br/>on <em>Sleep</em></h1>
+    <p class="hero-sub">Why the hours you spend doing nothing might be the most important hours of your day.</p>
+    <a href="#content" class="hero-cta">
+      Read the issue
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v10M3 8l5 5 5-5"/></svg>
+    </a>
+  </div>
+
+  <div class="orb">🌙</div>
+
+  <div class="hero-bottom">
+    <div class="hero-meta">Author <strong>Axon Access</strong></div>
+    <div class="hero-meta">Published <strong>March 2026</strong></div>
+    <div class="hero-meta">Next Issue <strong>Memory</strong></div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main id="content">
+
+  <!-- WHAT IS IT -->
+  <section>
+    <div class="section-label">What is it</div>
+    <h2>Sleep Is Your Brain's Nightly Maintenance Session</h2>
+    <p>Sleep is not just rest. While you are asleep, your brain is working harder than you might think. It cycles through different stages, including <strong>REM (Rapid Eye Movement)</strong> and <strong>non-REM sleep</strong>, each with a specific job. During deep non-REM sleep, your brain replays and stores the things you learned during the day. During REM sleep, it processes emotions and builds creative connections between ideas.</p>
+    <div class="pull-quote">
+      A key player here is the <strong>glymphatic system</strong> — a waste-clearance network that is almost exclusively active during sleep. It flushes out toxic proteins that build up in your brain throughout the day. Think of it as your brain running a dishwasher every night.
+    </div>
+  </section>
+
+  <!-- WHY YOU SHOULD CARE -->
+  <section>
+    <div class="section-label">Why You Should Care</div>
+    <h2>Teens Actually Need More Sleep Than Adults</h2>
+    <p>Most adults need 7 to 9 hours of sleep. But teenagers? The science says <strong>8 to 10 hours</strong>. That is not laziness. It is biology. Your brain is undergoing rapid development, and sleep is when much of that development happens. The <strong>prefrontal cortex</strong> — the part responsible for judgment, focus, and emotional regulation — is especially dependent on quality sleep during the teen years.</p>
+    <div class="highlight-card">
+      <div class="card-eyebrow">When you cut sleep short</div>
+      <h3>Your brain pays a real price — and it compounds</h3>
+      <p>Memory consolidation drops. Emotional reactions become more intense. Your ability to focus shrinks. Your risk of anxiety and depression increases. Pulling an all-nighter before an exam can actually make your memory <em>worse</em>, not better.</p>
+      <div class="tag">→ This is why it matters</div>
+    </div>
+  </section>
+
+  <!-- COOL FACT -->
+  <section>
+    <div class="section-label">Cool Fact · Mind = Blown</div>
+    <h2>Your Brain Shrinks While You Are Awake (and That Is Fine)</h2>
+    <p>During sleep, brain cells actually shrink by about 60%, creating more space between them. This allows the glymphatic system to flow through more easily and clean out waste products like <strong>beta-amyloid</strong> — a protein linked to Alzheimer's disease.</p>
+    <div class="pull-quote">
+      Getting enough sleep from a young age may literally protect your brain decades into the future. What you do tonight has consequences you won't feel for forty years.
+    </div>
+  </section>
+
+  <!-- MYTH BUSTER -->
+  <section>
+    <div class="section-label">Myth Buster</div>
+    <h2>Let's Set the Record Straight</h2>
+    <div class="myth-grid">
+      <div class="myth-col myth">
+        <div class="col-label">✕ The Myth</div>
+        <p>"I can catch up on sleep over the weekend." Many teens treat weekdays as a sleep debt and weekends as the repayment plan. It sounds logical, but the science does not back it up.</p>
+      </div>
+      <div class="myth-col truth">
+        <div class="col-label">✓ The Truth</div>
+        <p>Chronic sleep deprivation builds a neurological debt that weekend sleep only <strong>partially repairs</strong>. Consistent daily sleep is what the brain needs. Irregular sleep patterns also disrupt your circadian rhythm, making it harder to fall asleep on school nights.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAREERS -->
+  <section>
+    <div class="section-label">Careers Connected to This</div>
+    <h2>People Who Study This for a Living</h2>
+    <div class="careers-list">
+      <div class="career-row">
+        <div class="career-title">Sleep Scientist</div>
+        <div class="career-desc">Researches sleep stages, disorders, and how sleep affects brain health.</div>
+      </div>
+      <div class="career-row">
+        <div class="career-title">Neurologist</div>
+        <div class="career-desc">Diagnoses and treats brain and nervous system conditions, including sleep disorders.</div>
+      </div>
+      <div class="career-row">
+        <div class="career-title">Psychiatrist</div>
+        <div class="career-desc">Studies the link between sleep deprivation and mental health conditions.</div>
+      </div>
+      <div class="career-row">
+        <div class="career-title">Chronobiologist</div>
+        <div class="career-desc">Studies biological clocks and how the body's rhythms affect health and behaviour.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRY THIS TODAY -->
+  <section>
+    <div class="section-label">Try This Today</div>
+    <h2>Build a Sleep Wind-Down Routine</h2>
+    <p>Your brain does not switch off instantly. It needs a transition. Try this simple 30-minute wind-down routine tonight and notice how your sleep quality changes.</p>
+
+    <div class="exercise-steps">
+      <div class="step">
+        <div class="step-num">60</div>
+        <div class="step-text"><strong>Put your phone on Do Not Disturb.</strong> Blue light from screens suppresses melatonin — your sleep hormone.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">45</div>
+        <div class="step-text"><strong>Dim the lights in your room.</strong> Lower light levels signal your brain that night is coming.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">30</div>
+        <div class="step-text"><strong>Do something calm</strong> — like reading, light stretching, or journaling. No studying, no social media.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">10</div>
+        <div class="step-text"><strong>Try 4-7-8 breathing.</strong> Inhale for 4 counts, hold for 7, exhale for 8. Repeat three times.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">0</div>
+        <div class="step-text"><strong>Keep a consistent wake-up time</strong>, even on weekends. This anchors your circadian rhythm.</div>
+      </div>
+    </div>
+
+    <div class="why-box">
+      <div class="why-icon">💡</div>
+      <p><strong>Why it works:</strong> These steps lower your cortisol levels, trigger melatonin release, and bring your nervous system into a parasympathetic (rest) state. You are not just getting ready for bed — you are giving your brain the biological cues it needs to do its best repair work.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AXON<span>ACCESS</span></div>
+  <p class="footer-tagline">Neuroscience for every young mind · Made with curiosity</p>
+  <div class="next-issue">↗ Next issue: Memory</div>
+</footer>
+
+</body>
+</html>
