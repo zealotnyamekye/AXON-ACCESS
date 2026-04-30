@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Axon Access — Issue 04</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --paper: #FDFAF4;
+    --orange: #FF5C1A;
+    --orange-light: #FFF0EB;
+    --teal: #00897B;
+    --teal-light: #E0F4F1;
+    --blue: #1A5EFF;
+    --blue-light: #EBF0FF;
+    --ink: #1A1612;
+    --mid: #5A5248;
+    --border: rgba(26,22,18,0.1);
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--ink);
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 58px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+
+  .logo {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--white);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .logo em { color: var(--orange); font-style: normal; }
+
+  .header-right { display: flex; align-items: center; gap: 1.2rem; }
+
+  .issue-pill {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: var(--orange);
+    color: var(--white);
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+  }
+
+  .prev-link {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .prev-link:hover { color: var(--orange); }
+
+  /* ─── COVER ─── */
+  .cover {
+    background: var(--cream);
+    border-bottom: 2px solid var(--ink);
+    padding: 4rem 2.5rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 4rem;
+    align-items: end;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-bg-text {
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 22vw;
+    font-weight: 900;
+    color: rgba(26,22,18,0.04);
+    right: -2rem;
+    bottom: -2rem;
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .cover-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .kicker-line {
+    width: 40px;
+    height: 2px;
+    background: var(--orange);
+  }
+
+  .kicker-text {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 600;
+    color: var(--orange);
+  }
+
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 1.5rem;
+  }
+
+  .cover h1 em {
+    font-style: italic;
+    color: var(--orange);
+  }
+
+  .cover-desc {
+    color: var(--mid);
+    font-size: 1.05rem;
+    max-width: 460px;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .cover-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .cover-meta span::before { content: '·'; margin-right: 1.5rem; color: var(--border); }
+  .cover-meta span:first-child::before { display: none; }
+
+  /* Cover visual */
+  .cover-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .cover-diagram {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  /* ─── TABS ─── */
+  .tab-nav-wrap {
+    background: var(--white);
+    border-bottom: 2px solid var(--ink);
+    position: sticky;
+    top: 58px;
+    z-index: 100;
+  }
+
+  .tab-nav {
+    display: flex;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    padding: 1.1rem 1.6rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--mid);
+    cursor: pointer;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+  }
+
+  .tab-btn .tab-num {
+    font-size: 0.65rem;
+    background: var(--cream);
+    border-radius: 30px;
+    padding: 0.1rem 0.45rem;
+    margin-right: 0.4rem;
+    color: var(--mid);
+    font-weight: 700;
+  }
+
+  .tab-btn:hover { color: var(--ink); }
+
+  .tab-btn.active {
+    color: var(--orange);
+    border-bottom-color: var(--orange);
+  }
+  .tab-btn.active .tab-num { background: var(--orange); color: var(--white); }
+
+  /* ─── PANELS ─── */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ─── CONTENT WRAPPER ─── */
+  .content-wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  /* ─── PANEL: EXPLAINER ─── */
+  .explainer-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-left: 2px solid var(--ink);
+    margin: 3rem 0;
+  }
+
+  .explainer-main {
+    padding: 3rem 3rem 3rem 3rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .explainer-sidebar {
+    padding: 3rem;
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .panel-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+  }
+
+  .panel-heading em { font-style: italic; color: var(--orange); }
+
+  .body-text {
+    color: var(--mid);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .body-text strong { color: var(--ink); font-weight: 600; }
+
+  .sidebar-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .sidebar-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar-card p { font-size: 0.9rem; color: var(--mid); line-height: 1.6; }
+
+  /* pathway visual */
+  .pathway-visual {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 2.5rem 0;
+    flex-wrap: wrap;
+  }
+
+  .pathway-node {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    padding: 1.5rem 0.8rem;
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    background: var(--white);
+    position: relative;
+  }
+
+  .pathway-node .node-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+  .pathway-node h5 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem; }
+  .pathway-node p { font-size: 0.75rem; color: var(--mid); }
+
+  .pathway-arrow {
+    font-size: 1.5rem;
+    color: var(--orange);
+    flex-shrink: 0;
+    padding: 0 0.3rem;
+  }
+
+  /* ─── PANEL: SCIENCE (3 columns) ─── */
+  .science-intro {
+    padding: 3rem 0 2rem;
+  }
+
+  .science-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 2px solid var(--ink);
+    border-radius: 0;
+    margin-bottom: 3rem;
+  }
+
+  .sci-col {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sci-col:last-child { border-right: none; }
+
+  .sci-col::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 5px;
+    position: absolute;
+    top: 0; left: 0;
+  }
+
+  .sci-col.sugar::before { background: var(--orange); }
+  .sci-col.water::before { background: var(--blue); }
+  .sci-col.exercise::before { background: var(--teal); }
+
+  .sci-col .col-emoji { font-size: 2.5rem; display: block; margin-bottom: 1rem; }
+
+  .sci-col h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+
+  .sci-col.sugar h3 { color: var(--orange); }
+  .sci-col.water h3 { color: var(--blue); }
+  .sci-col.exercise h3 { color: var(--teal); }
+
+  .sci-col p { font-size: 0.92rem; color: var(--mid); line-height: 1.7; margin-bottom: 0.8rem; }
+
+  .sci-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.5rem;
+  }
+
+  .sci-col.sugar .sci-tag { background: var(--orange-light); color: var(--orange); }
+  .sci-col.water .sci-tag { background: var(--blue-light); color: var(--blue); }
+  .sci-col.exercise .sci-tag { background: var(--teal-light); color: var(--teal); }
+
+  .synthesis-box {
+    background: var(--ink);
+    color: var(--white);
+    border-radius: 16px;
+    padding: 2.5rem 3rem;
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .synth-icon { font-size: 3.5rem; }
+
+  .synthesis-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--orange);
+    margin-bottom: 0.5rem;
+  }
+
+  .synthesis-box p { color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.7; }
+
+  /* ─── PANEL: COOL FACT ─── */
+  .cool-fact-layout {
+    padding: 3rem 0;
+  }
+
+  .fact-hero {
+    background: var(--orange);
+    color: var(--white);
+    border-radius: 20px;
+    padding: 4rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fact-hero::after {
+    content: '🧠';
+    position: absolute;
+    font-size: 14rem;
+    opacity: 0.08;
+    right: -2rem;
+    bottom: -3rem;
+    pointer-events: none;
+  }
+
+  .fact-hero .tag-line {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 700;
+    opacity: 0.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .fact-hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+  }
+
+  .fact-hero p { font-size: 1.05rem; opacity: 0.85; max-width: 580px; line-height: 1.8; }
+
+  .neurogenesis-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .neuro-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--teal);
+    border-radius: 12px;
+    padding: 1.5rem 1.2rem;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+
+  .neuro-card:hover { transform: translateY(-4px); }
+
+  .neuro-card .nc-icon { font-size: 2rem; margin-bottom: 0.7rem; display: block; }
+  .neuro-card h5 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .neuro-card p { font-size: 0.8rem; color: var(--mid); }
+
+  /* ─── PANEL: MYTH ─── */
+  .myth-layout {
+    padding: 3rem 0;
+  }
+
+  .versus-block {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0;
+    align-items: stretch;
+    margin-bottom: 2.5rem;
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .myth-side {
+    padding: 3rem;
+    background: #FFF5F5;
+  }
+
+  .truth-side {
+    padding: 3rem;
+    background: #F0FBF8;
+  }
+
+  .versus-divider {
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--white);
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+
+  .vs-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+
+  .myth-side .vs-badge { background: rgba(255,80,80,0.12); color: #CC0000; }
+  .truth-side .vs-badge { background: rgba(0,137,123,0.12); color: var(--teal); }
+
+  .myth-side h3, .truth-side h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .myth-side h3 { color: #CC0000; }
+  .truth-side h3 { color: var(--teal); }
+
+  .myth-side p, .truth-side p { font-size: 0.95rem; color: var(--mid); line-height: 1.7; }
+
+  .takeaway-strip {
+    background: var(--ink);
+    color: var(--white);
+    padding: 1.8rem 2.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .takeaway-strip .strip-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .takeaway-strip strong { color: var(--orange); }
+
+  /* ─── PANEL: ROUTINE ─── */
+  .routine-layout {
+    padding: 3rem 0;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 3rem;
+  }
+
+  .routine-steps { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+
+  .routine-step {
+    background: var(--white);
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    align-items: stretch;
+    transition: background 0.2s;
+  }
+
+  .routine-step:hover { background: var(--cream); }
+
+  .step-num-block {
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--orange);
+    border-right: 1px solid var(--border);
+  }
+
+  .step-body { padding: 1.5rem 1.8rem; }
+
+  .step-body h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .step-body p { font-size: 0.88rem; color: var(--mid); line-height: 1.6; }
+
+  .routine-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .routine-sidebar h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar-science {
+    background: var(--ink);
+    color: var(--white);
+    border-radius: 14px;
+    padding: 2rem;
+  }
+
+  .sidebar-science h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--orange);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .science-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+
+  .science-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+  }
+
+  .science-list li::before {
+    content: '→';
+    color: var(--orange);
+    flex-shrink: 0;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+
+  /* ─── PANEL: CAREERS ─── */
+  .careers-layout {
+    padding: 3rem 0;
+  }
+
+  .careers-board {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .career-card {
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .career-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+
+  .career-header {
+    padding: 1.5rem 1.8rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .career-header .c-icon { font-size: 2rem; }
+
+  .career-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .career-body {
+    padding: 1.5rem 1.8rem;
+    background: var(--cream);
+  }
+
+  .career-body p { font-size: 0.9rem; color: var(--mid); line-height: 1.6; margin-bottom: 1rem; }
+
+  .career-skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+  .skill-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── FOOTER ─── */
+  .issue-footer {
+    background: var(--ink);
+    color: var(--white);
+    margin-top: 4rem;
+    padding: 3rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .footer-brand {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .footer-brand em { color: var(--orange); font-style: normal; }
+
+  .footer-tagline { font-size: 0.85rem; color: rgba(255,255,255,0.4); }
+
+  .footer-next h5 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--orange); margin-bottom: 0.5rem; }
+
+  .footer-next p { font-size: 0.9rem; font-weight: 500; }
+
+  .footer-issues { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  .issue-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .issue-dot.current { background: var(--orange); border-color: var(--orange); color: var(--white); }
+  .issue-dot:hover { border-color: var(--orange); color: var(--orange); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 820px) {
+    .cover { grid-template-columns: 1fr; }
+    .cover-visual { display: none; }
+    .explainer-layout { grid-template-columns: 1fr; border-left: none; }
+    .explainer-sidebar { border-top: 2px solid var(--ink); }
+    .science-cols { grid-template-columns: 1fr; }
+    .neurogenesis-grid { grid-template-columns: 1fr 1fr; }
+    .versus-block { grid-template-columns: 1fr; }
+    .versus-divider { writing-mode: horizontal-tb; padding: 1rem; }
+    .routine-layout { grid-template-columns: 1fr; }
+    .careers-board { grid-template-columns: 1fr; }
+    .issue-footer { grid-template-columns: 1fr; }
+    .tab-btn { padding: 1rem 1rem; font-size: 0.78rem; }
+    .content-wrap { padding: 0 1.2rem; }
+    header { padding: 0 1.2rem; }
+    .cover { padding: 3rem 1.2rem 2rem; }
+    .synthesis-box { grid-template-columns: 1fr; }
+    .fact-hero { padding: 2.5rem; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .tab-panel.active { animation: slideIn 0.35s ease both; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#"><em>Axon</em>Access</a>
+  <div class="header-right">
+    <a href="#" class="prev-link">← Issue 03</a>
+    <div class="issue-pill">Issue 04</div>
+  </div>
+</header>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-left">
+    <div class="cover-kicker">
+      <div class="kicker-line"></div>
+      <span class="kicker-text">Monthly Neuroscience Series</span>
+    </div>
+    <h1>Remember<br><em>This.</em></h1>
+    <p class="cover-desc">How sugar, water, and exercise shape your ability to recall information — and why your daily habits are quietly running the show.</p>
+    <div class="cover-meta">
+      <span>Issue 04</span>
+      <span>Memory & Recall</span>
+      <span>Neuroscience for Teens</span>
+    </div>
+  </div>
+  <div class="cover-visual">
+    <!-- Diagram SVG -->
+    <svg class="cover-diagram" viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background circle -->
+      <circle cx="170" cy="170" r="155" stroke="#1A1612" stroke-width="1.5" stroke-dasharray="6 4" fill="rgba(26,22,18,0.03)"/>
+      <!-- Center brain -->
+      <ellipse cx="170" cy="170" rx="55" ry="45" fill="#FF5C1A" opacity="0.12"/>
+      <ellipse cx="170" cy="170" rx="55" ry="45" stroke="#FF5C1A" stroke-width="2" fill="none"/>
+      <text x="170" y="165" text-anchor="middle" font-family="'Playfair Display', serif" font-size="11" font-weight="700" fill="#FF5C1A">RECALL</text>
+      <text x="170" y="180" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="9" fill="#5A5248">hippocampus</text>
+
+      <!-- Sugar node -->
+      <circle cx="80" cy="80" r="38" fill="#FFF0EB" stroke="#FF5C1A" stroke-width="2"/>
+      <text x="80" y="74" text-anchor="middle" font-size="18">🍊</text>
+      <text x="80" y="92" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="10" font-weight="700" fill="#FF5C1A">SUGAR</text>
+      <text x="80" y="105" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="8" fill="#5A5248">Fuel type matters</text>
+      <!-- Line to center -->
+      <line x1="110" y1="108" x2="140" y2="138" stroke="#FF5C1A" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+      <!-- Water node -->
+      <circle cx="265" cy="80" r="38" fill="#EBF0FF" stroke="#1A5EFF" stroke-width="2"/>
+      <text x="265" y="74" text-anchor="middle" font-size="18">💧</text>
+      <text x="265" y="92" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="10" font-weight="700" fill="#1A5EFF">WATER</text>
+      <text x="265" y="105" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="8" fill="#5A5248">75% of brain is water</text>
+      <!-- Line to center -->
+      <line x1="235" y1="108" x2="205" y2="138" stroke="#1A5EFF" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+      <!-- Exercise node -->
+      <circle cx="170" cy="280" r="38" fill="#E0F4F1" stroke="#00897B" stroke-width="2"/>
+      <text x="170" y="274" text-anchor="middle" font-size="18">🏃</text>
+      <text x="170" y="292" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="10" font-weight="700" fill="#00897B">EXERCISE</text>
+      <text x="170" y="305" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="8" fill="#5A5248">Boosts BDNF</text>
+      <!-- Line to center -->
+      <line x1="170" y1="242" x2="170" y2="215" stroke="#00897B" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+      <!-- Arrow heads -->
+      <polygon points="141,137 133,130 140,126" fill="#FF5C1A"/>
+      <polygon points="204,138 212,131 207,126" fill="#1A5EFF"/>
+      <polygon points="170,216 165,208 175,208" fill="#00897B"/>
+    </svg>
+  </div>
+  <div class="cover-bg-text">04</div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav-wrap">
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="explainer"><span class="tab-num">1</span>What Is Recall?</button>
+    <button class="tab-btn" data-tab="science"><span class="tab-num">2</span>The Science</button>
+    <button class="tab-btn" data-tab="coolfact"><span class="tab-num">3</span>Cool Fact</button>
+    <button class="tab-btn" data-tab="myth"><span class="tab-num">4</span>Myth Buster</button>
+    <button class="tab-btn" data-tab="routine"><span class="tab-num">5</span>Try This</button>
+    <button class="tab-btn" data-tab="careers"><span class="tab-num">6</span>Careers</button>
+  </nav>
+</div>
+
+<!-- ══════════ TAB 1: EXPLAINER ══════════ -->
+<div class="tab-panel active" id="tab-explainer">
+  <div class="content-wrap">
+    <div class="explainer-layout">
+      <div class="explainer-main">
+        <h2 class="panel-heading">Recall Is the <em>Hardest Part</em> of Memory</h2>
+        <p class="body-text">We already know memory has three stages: encoding, storage, and retrieval. Issue 04 is all about that third stage — <strong>retrieval</strong> — which is the act of pulling a stored memory back into conscious awareness. This is what happens when you sit down for an exam and try to remember what you studied.</p>
+        <p class="body-text">Recall is not automatic. It depends on how strong the <strong>neural pathways</strong> connecting that memory are. Think of those pathways like footpaths in a field. The more you walk them, the clearer they become.</p>
+        <p class="body-text">But your biology also matters. The condition of your brain on any given day — shaped heavily by your sugar intake, hydration, and physical activity — directly affects how quickly and accurately you can retrieve information.</p>
+
+        <div class="pathway-visual">
+          <div class="pathway-node">
+            <span class="node-icon">📥</span>
+            <h5>Encode</h5>
+            <p>Take it in</p>
+          </div>
+          <div class="pathway-arrow">→</div>
+          <div class="pathway-node">
+            <span class="node-icon">🗄️</span>
+            <h5>Store</h5>
+            <p>Hold it</p>
+          </div>
+          <div class="pathway-arrow">→</div>
+          <div class="pathway-node" style="border-color:var(--orange); background:var(--orange-light);">
+            <span class="node-icon">🔍</span>
+            <h5 style="color:var(--orange)">Recall</h5>
+            <p>Pull it back</p>
+          </div>
+        </div>
+
+        <p class="body-text" style="font-size:0.85rem; color:var(--mid); font-style:italic;">← Recall is what this issue is all about. It is the stage most affected by what you eat, drink, and how much you move.</p>
+      </div>
+      <div class="explainer-sidebar">
+        <div class="sidebar-card">
+          <h4>🧠 The Hippocampus</h4>
+          <p>The brain region at the centre of memory. It stores your experiences during the day and transfers them into long-term memory while you sleep. Its performance depends directly on glucose, hydration, and BDNF.</p>
+        </div>
+        <div class="sidebar-card">
+          <h4>🛤️ Neural Pathways</h4>
+          <p>The brain connections that link pieces of information together. The stronger and more-used a pathway, the faster the recall. You build stronger pathways through retrieval practice, sleep, and exercise.</p>
+        </div>
+        <div class="sidebar-card">
+          <h4>📌 From Issue 03</h4>
+          <p>Memory consolidation — the process where the hippocampus locks in what you learned — happens during deep sleep. That is why 8 hours is not optional if you want good recall the next day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TAB 2: SCIENCE ══════════ -->
+<div class="tab-panel" id="tab-science">
+  <div class="content-wrap">
+    <div class="science-intro">
+      <h2 class="panel-heading">Three Things You Do Every Day<br>Are <em>Affecting Your Recall</em> Right Now</h2>
+      <p class="body-text" style="max-width:600px;">Sugar, water, and exercise are not just health habits. They are memory tools. Here is exactly what each one does to your brain.</p>
+    </div>
+
+    <div class="science-cols">
+      <div class="sci-col sugar">
+        <span class="col-emoji">🍬</span>
+        <h3>Sugar</h3>
+        <p>Glucose is your brain's primary fuel, but the <strong>type and amount matters</strong>. Small, steady amounts from complex carbohydrates (oats, rice, yams) keep the hippocampus functioning well.</p>
+        <p>High-sugar spikes from sodas or candy cause a rapid crash that impairs the prefrontal cortex and makes it harder to retrieve memories under pressure. Research from UCLA found a high-fructose diet over time actually slows brain signalling and weakens recall.</p>
+        <span class="sci-tag">Steady fuel = better recall</span>
+      </div>
+      <div class="sci-col water">
+        <span class="col-emoji">💧</span>
+        <h3>Water</h3>
+        <p>Your brain is approximately <strong>75% water</strong>. Even mild dehydration (as little as 1–2% of body weight) has been shown to reduce short-term memory, slow reaction time, and impair concentration.</p>
+        <p>When you are dehydrated, neurons fire less efficiently, making it harder to access stored information quickly. Students who drank water before cognitive tests consistently scored higher than those who did not.</p>
+        <span class="sci-tag">Hydration = faster neural access</span>
+      </div>
+      <div class="sci-col exercise">
+        <span class="col-emoji">🏃</span>
+        <h3>Exercise</h3>
+        <p>Physical activity triggers the release of <strong>BDNF</strong> (Brain-Derived Neurotrophic Factor), a protein that strengthens existing neural connections and helps grow new ones.</p>
+        <p>Even a 20-minute brisk walk before studying improves memory consolidation and retrieval. Exercise also reduces cortisol — a major blocker of clear thinking covered in Issue 01.</p>
+        <span class="sci-tag">BDNF = stronger connections</span>
+      </div>
+    </div>
+
+    <div class="synthesis-box">
+      <div class="synth-icon">🔗</div>
+      <div>
+        <h3>Putting It Together</h3>
+        <p>Teens who maintain steady blood sugar, stay hydrated, and move regularly are giving their brains the biological conditions needed to encode and recall information at a higher level. These are choices you make <strong style="color:var(--white)">before you even open a textbook</strong>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TAB 3: COOL FACT ══════════ -->
+<div class="tab-panel" id="tab-coolfact">
+  <div class="content-wrap">
+    <div class="cool-fact-layout">
+      <div class="fact-hero">
+        <p class="tag-line">🤯 Mind = Blown</p>
+        <h2>Exercise Grows New Brain Cells in the Memory Centre</h2>
+        <p>For a long time, scientists believed you were born with a fixed number of brain cells and that was it. We now know that is not true. The hippocampus is one of the only regions in the brain that can generate brand new neurons throughout your life — a process called <strong>neurogenesis</strong>. And the number one trigger for this? Aerobic exercise.</p>
+      </div>
+
+      <div class="neurogenesis-grid">
+        <div class="neuro-card">
+          <span class="nc-icon">🏃</span>
+          <h5>Running</h5>
+          <p>Stimulates hippocampal neurogenesis directly</p>
+        </div>
+        <div class="neuro-card">
+          <span class="nc-icon">💃</span>
+          <h5>Dancing</h5>
+          <p>Combines aerobic exercise with rhythm & coordination</p>
+        </div>
+        <div class="neuro-card">
+          <span class="nc-icon">🏊</span>
+          <h5>Swimming</h5>
+          <p>Full-body aerobic activity proven to boost BDNF</p>
+        </div>
+        <div class="neuro-card">
+          <span class="nc-icon">🚶</span>
+          <h5>Fast Walking</h5>
+          <p>Even 20 min is enough to trigger new cell growth</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TAB 4: MYTH ══════════ -->
+<div class="tab-panel" id="tab-myth">
+  <div class="content-wrap">
+    <div class="myth-layout">
+      <h2 class="panel-heading" style="margin-bottom:2rem;">Let's Set the<br><em>Record Straight</em></h2>
+
+      <div class="versus-block">
+        <div class="myth-side">
+          <span class="vs-badge">✕ The Myth</span>
+          <h3>"Eating sugar before an exam gives your brain a boost."</h3>
+          <p>Many teens reach for energy drinks, sweets, or biscuits right before a test, believing the sugar will sharpen their thinking. It seems logical — sugar is energy, and your brain needs energy, right?</p>
+        </div>
+        <div class="versus-divider">vs</div>
+        <div class="truth-side">
+          <span class="vs-badge">✓ The Truth</span>
+          <h3>A sugar spike causes a rapid crash that hurts recall.</h3>
+          <p>A surge in blood glucose causes a rapid rise — and then a crash. During that crash, focus and recall both drop. What your brain actually needs before an exam is <strong>steady fuel</strong>: complex carbs, some protein, and water. Save the sweets for after.</p>
+        </div>
+      </div>
+
+      <div class="takeaway-strip">
+        <div class="strip-icon">💡</div>
+        <div><strong>The takeaway:</strong> Before your next exam, eat oats, rice, or eggs — not a bar of chocolate. Your brain will perform better for longer because its glucose supply stays stable throughout.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TAB 5: ROUTINE ══════════ -->
+<div class="tab-panel" id="tab-routine">
+  <div class="content-wrap">
+    <div class="routine-layout">
+      <div>
+        <h2 class="panel-heading" style="margin-bottom:0.5rem;">The Recall-Ready<br><em>Morning Routine</em></h2>
+        <p class="body-text" style="margin-bottom:2rem;">Try this on your next exam day or heavy study day. Designed to prime your brain for recall using everything in this issue.</p>
+        <div class="routine-steps">
+          <div class="routine-step">
+            <div class="step-num-block">1</div>
+            <div class="step-body">
+              <h4>💧 Drink water first</h4>
+              <p>Your brain has been without water for 7+ hours. Drink a full glass before you pick up your phone or your notes. Rehydrate before everything else.</p>
+            </div>
+          </div>
+          <div class="routine-step">
+            <div class="step-num-block">2</div>
+            <div class="step-body">
+              <h4>🍳 Eat a brain-friendly breakfast</h4>
+              <p>Eggs with whole grain bread, oats with fruit, or rice and beans. Avoid high-sugar cereals or pastries that will cause a mid-morning crash.</p>
+            </div>
+          </div>
+          <div class="routine-step">
+            <div class="step-num-block">3</div>
+            <div class="step-body">
+              <h4>🏃 Move for 15–20 minutes</h4>
+              <p>A brisk walk, a quick dance session, or light stretching. You do not need a gym. This raises BDNF and increases blood flow to your hippocampus before the work begins.</p>
+            </div>
+          </div>
+          <div class="routine-step">
+            <div class="step-num-block">4</div>
+            <div class="step-body">
+              <h4>💧 Keep water nearby while studying</h4>
+              <p>Drink consistently throughout — not just when you feel thirsty. Thirst is already a sign of mild dehydration.</p>
+            </div>
+          </div>
+          <div class="routine-step">
+            <div class="step-num-block">5</div>
+            <div class="step-body">
+              <h4>📖 Test yourself, don't re-read</h4>
+              <p>Use retrieval practice from Issue 03. Close the book, write what you remember, check the gaps. Your primed brain will surprise you.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="routine-sidebar">
+        <div class="sidebar-science">
+          <h4>Why It Works</h4>
+          <ul class="science-list">
+            <li>Water restores neural efficiency — neurons fire faster when you are properly hydrated</li>
+            <li>Steady-fuel breakfast keeps blood glucose stable throughout your study session</li>
+            <li>Exercise raises BDNF and reduces cortisol — your two biggest brain performance levers</li>
+            <li>Retrieval practice forces reconstruction of neural pathways, making them stronger</li>
+          </ul>
+        </div>
+        <div style="background:var(--orange-light); border:1px solid rgba(255,92,26,0.2); border-radius:14px; padding:1.5rem;">
+          <p style="font-size:0.8rem; color:var(--orange); font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Note</p>
+          <p style="font-size:0.88rem; color:var(--mid);">This is not motivation advice. It is applied neuroscience. Each step targets a specific biological condition for memory recall.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TAB 6: CAREERS ══════════ -->
+<div class="tab-panel" id="tab-careers">
+  <div class="content-wrap">
+    <div class="careers-layout">
+      <h2 class="panel-heading" style="margin-bottom:0.5rem;">People Who Study<br><em>This for a Living</em></h2>
+      <p class="body-text" style="margin-bottom:2.5rem; max-width:500px;">The science in this issue connects to real careers that are in high demand — especially across Africa as neuroscience, nutrition, and sports science grow.</p>
+
+      <div class="careers-board">
+        <div class="career-card">
+          <div class="career-header">
+            <span class="c-icon">🧬</span>
+            <div>
+              <h3>Cognitive Neuroscientist</h3>
+            </div>
+          </div>
+          <div class="career-body">
+            <p>Studies how lifestyle factors like diet and exercise change brain function and memory. Works in research institutions, universities, and increasingly in edtech.</p>
+            <div class="career-skill-tags">
+              <span class="skill-tag">Biology</span>
+              <span class="skill-tag">Psychology</span>
+              <span class="skill-tag">Research</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="career-card">
+          <div class="career-header">
+            <span class="c-icon">⚡</span>
+            <div>
+              <h3>Sports Scientist</h3>
+            </div>
+          </div>
+          <div class="career-body">
+            <p>Researches how physical activity affects mental performance and brain health. Works with athletes, schools, and performance coaches.</p>
+            <div class="career-skill-tags">
+              <span class="skill-tag">Physiology</span>
+              <span class="skill-tag">Exercise Science</span>
+              <span class="skill-tag">Data</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="career-card">
+          <div class="career-header">
+            <span class="c-icon">🥦</span>
+            <div>
+              <h3>Nutritional Psychiatrist</h3>
+            </div>
+          </div>
+          <div class="career-body">
+            <p>Investigates the connection between what we eat, brain chemistry, and cognitive function. A rapidly growing field with limited practitioners in Africa.</p>
+            <div class="career-skill-tags">
+              <span class="skill-tag">Nutrition</span>
+              <span class="skill-tag">Psychiatry</span>
+              <span class="skill-tag">Medicine</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="career-card">
+          <div class="career-header">
+            <span class="c-icon">🫀</span>
+            <div>
+              <h3>Exercise Physiologist</h3>
+            </div>
+          </div>
+          <div class="career-body">
+            <p>Studies how the body responds to physical activity, including the effects on the brain. Works in hospitals, rehabilitation, and elite sport.</p>
+            <div class="career-skill-tags">
+              <span class="skill-tag">Anatomy</span>
+              <span class="skill-tag">Physiology</span>
+              <span class="skill-tag">Clinical</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="issue-footer">
+  <div>
+    <div class="footer-brand"><em>Axon</em>Access</div>
+    <p class="footer-tagline">Made with curiosity · Neuroscience for every young mind</p>
+  </div>
+  <div class="footer-next">
+    <h5>Next Month</h5>
+    <p>Issue 05 — Stress &amp; Sugar →</p>
+  </div>
+  <div>
+    <p style="font-size:0.7rem; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:0.8rem;">All Issues</p>
+    <div class="footer-issues">
+      <div class="issue-dot">01</div>
+      <div class="issue-dot">02</div>
+      <div class="issue-dot">03</div>
+      <div class="issue-dot current">04</div>
+      <div class="issue-dot">05</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      const target = document.getElementById('tab-' + btn.dataset.tab);
+      if (target) target.classList.add('active');
+
+      // scroll content into view smoothly
+      document.querySelector('.tab-nav-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
