@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Disparities in Mental Health Care · Axon Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --primary: #1C3A5E;
+    --primary-light: #4A7CB5;
+    --primary-dim: #0A1E35;
+    --accent: #C8973A;
+    --accent-dim: #5C3E0A;
+    --cream: #F8F7F4;
+    --ink: #0D1B29;
+    --mid: #3A5470;
+    --muted: #7A96AE;
+    --rule: rgba(28,58,94,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── SITE NAV ── */
+  .site-nav {
+    background: var(--primary-dim);
+    padding: 1.25rem clamp(1.5rem, 5vw, 5rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: #fff;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .nav-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── ARTICLE HERO ── */
+  .article-hero {
+    background: var(--primary-dim);
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 5rem) clamp(2.5rem, 6vw, 4rem);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .article-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 90% 50%, rgba(28,58,94,0.6), transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 760px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .article-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .kicker-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(200,151,58,0.35);
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+  }
+
+  .kicker-divider {
+    width: 1px;
+    height: 14px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .kicker-cat {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .article-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    color: #fff;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  .article-hero h1 em {
+    font-style: normal;
+    color: var(--primary-light);
+  }
+
+  .article-dek {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 300;
+    color: rgba(255,255,255,0.62);
+    line-height: 1.7;
+    max-width: 580px;
+    margin-bottom: 2.5rem;
+  }
+
+  .article-byline {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+  }
+
+  .byline-author {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .author-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .byline-name {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #fff;
+  }
+
+  .byline-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .byline-sep {
+    width: 1px;
+    height: 28px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* ── ARTICLE BODY ── */
+  .article-wrap {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 2rem);
+  }
+
+  /* Data strip */
+  .data-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 3.5rem;
+  }
+
+  .data-cell {
+    background: #fff;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+  }
+
+  .data-group {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .data-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.9rem;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .data-cell:nth-child(1) .data-num { color: var(--primary); }
+  .data-cell:nth-child(2) .data-num { color: #6B4FAE; }
+  .data-cell:nth-child(3) .data-num { color: var(--accent); }
+  .data-cell:nth-child(4) .data-num { color: var(--primary-light); }
+
+  .data-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .data-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(0,0,0,0.2);
+    margin-top: 0.2rem;
+  }
+
+  /* Prose */
+  .prose-section {
+    margin-bottom: 3.25rem;
+  }
+
+  .section-marker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .marker-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+  }
+
+  .marker-line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    max-width: 48px;
+  }
+
+  .prose-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 1.1rem;
+  }
+
+  .prose-section p {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--mid);
+    margin-bottom: 1.1rem;
+  }
+
+  .prose-section p:last-child { margin-bottom: 0; }
+
+  strong { font-weight: 500; color: var(--ink); }
+  em { font-style: italic; color: var(--primary); }
+
+  /* Pull quote */
+  .pull-quote {
+    margin: 2rem -1.5rem;
+    padding: 1.75rem 2.25rem;
+    border-left: 4px solid var(--accent);
+    background: rgba(200,151,58,0.06);
+    border-radius: 0 12px 12px 0;
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+    font-weight: 600;
+    color: var(--primary-dim);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 600px) {
+    .pull-quote { margin: 2rem 0; }
+  }
+
+  /* Callout stat box */
+  .stat-box {
+    background: var(--primary-dim);
+    border-radius: 14px;
+    padding: 1.75rem 2rem;
+    margin: 2rem 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .stat-big {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 3rem;
+    color: var(--accent);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .stat-text {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.72);
+  }
+
+  .stat-text strong { color: #fff; }
+
+  /* Rule divider */
+  .prose-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 3rem 0;
+  }
+
+  /* What can be done */
+  .action-section {
+    background: var(--primary-dim);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin: 3rem 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .action-section::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(28,58,94,0.5);
+    pointer-events: none;
+  }
+
+  .action-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .action-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+    color: #fff;
+    margin-bottom: 1.25rem;
+    line-height: 1.2;
+    position: relative;
+    z-index: 1;
+  }
+
+  .action-pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pillar {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  .pillar-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--accent);
+    opacity: 0.5;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .pillar p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .pillar strong { color: rgba(255,255,255,0.95); }
+
+  .action-section > p {
+    font-size: 0.93rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.75;
+    position: relative;
+    z-index: 1;
+    margin: 0;
+  }
+
+  /* References */
+  .references {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .references h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .references ol {
+    list-style: none;
+    counter-reset: ref-counter;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .references li {
+    counter-increment: ref-counter;
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  .references li::before {
+    content: counter(ref-counter);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    padding-top: 0.1rem;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--primary-dim);
+    padding: 2.5rem clamp(1.5rem, 5vw, 5rem);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(28,58,94,0.4), transparent 65%);
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    color: #fff;
+    margin-bottom: 0.4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-tagline {
+    font-size: 0.83rem;
+    color: var(--muted);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Responsive */
+  @media (max-width: 580px) {
+    .data-strip { grid-template-columns: 1fr 1fr; }
+    .action-pillars { grid-template-columns: 1fr; }
+    .stat-box { grid-template-columns: 1fr; gap: 0.75rem; }
+    .byline-sep { display: none; }
+  }
+
+  @media (max-width: 380px) {
+    .data-strip { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SITE NAV -->
+<nav class="site-nav">
+  <a href="/" class="logo">AXON<span>ACCESS</span></a>
+  <span class="nav-tag">Health Equity</span>
+</nav>
+
+<!-- ARTICLE HERO -->
+<header class="article-hero">
+  <div class="hero-inner">
+    <div class="article-kicker">
+      <span class="kicker-tag">Long Read</span>
+      <span class="kicker-divider"></span>
+      <span class="kicker-cat">Mental Health &amp; Society</span>
+    </div>
+    <h1>Disparities in<br/><em>Mental Health</em> Care</h1>
+    <p class="article-dek">In the United States, racial and ethnic disparities in mental health service usage persist across decades. Understanding why they exist is the first step to dismantling them.</p>
+    <div class="article-byline">
+      <div class="byline-author">
+        <div class="author-avatar">NM</div>
+        <div>
+          <div class="byline-name">Nicolas Mayen</div>
+          <div class="byline-meta">Contributor</div>
+        </div>
+      </div>
+      <div class="byline-sep"></div>
+      <div class="byline-meta">Health Equity · 2026</div>
+      <div class="byline-sep"></div>
+      <div class="byline-meta">7 min read</div>
+    </div>
+  </div>
+</header>
+
+<!-- ARTICLE BODY -->
+<article class="article-wrap">
+
+  <!-- DATA STRIP: 2020 usage rates -->
+  <div class="data-strip">
+    <div class="data-cell">
+      <div class="data-group">White</div>
+      <div class="data-num">52%</div>
+      <div class="data-label">used mental health services</div>
+      <div class="data-year">2020</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-group">Black / African American</div>
+      <div class="data-num">38%</div>
+      <div class="data-label">used mental health services</div>
+      <div class="data-year">2020</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-group">Hispanic</div>
+      <div class="data-num">32%</div>
+      <div class="data-label">used mental health services</div>
+      <div class="data-year">2020</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-group">Asian</div>
+      <div class="data-num">20%</div>
+      <div class="data-label">used mental health services</div>
+      <div class="data-year">2020</div>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="prose-section">
+    <p>Health disparities among racial groups in the United States have been documented across a wide range of categories — disease prevention, treatment of congenital conditions, injuries, and more. Among these, mental health stands out as a persistent and under-examined point of inequality. Because this continues to be an issue, it is important to understand both the scale of these disparities and their causes, in order to address them meaningfully.</p>
+  </div>
+
+  <hr class="prose-rule"/>
+
+  <!-- TRENDS -->
+  <div class="prose-section">
+    <div class="section-marker">
+      <span class="marker-num">01</span>
+      <span class="marker-line"></span>
+    </div>
+    <h2>Trends in Usage of Mental Health Services</h2>
+    <p>From 2008 to 2012, adults with any mental health condition were tracked across racial and ethnic groups for their use of mental health services. White adults used these services at a rate of <strong>46.3%</strong>. By contrast, Black or African-American adults used them at 29.8%, Hispanic adults at 27.3%, and Asian adults at just 18.1%.</p>
+
+    <div class="pull-quote">
+      By 2020, usage had increased across all groups — yet the gaps had not meaningfully closed. White adults were at 52%, while Asian adults remained at 20%.
+    </div>
+
+    <p>Though the overall trajectory is upward, the proportional gaps have remained stubbornly consistent over more than a decade. These results raise a critical question: why do these disparities continue to persist, even as awareness of mental health has broadly increased?</p>
+  </div>
+
+  <hr class="prose-rule"/>
+
+  <!-- SOCIOECONOMIC -->
+  <div class="prose-section">
+    <div class="section-marker">
+      <span class="marker-num">02</span>
+      <span class="marker-line"></span>
+    </div>
+    <h2>Socioeconomic Inequities</h2>
+    <p>Socioeconomic status is one of the most significant drivers of unequal access to mental healthcare. Access to treatment often depends on access to insurance — and insurance access is closely tied to income and employment.</p>
+
+    <div class="stat-box">
+      <div class="stat-big">60%</div>
+      <div class="stat-text">of people who are uninsured in the US are <strong>people of color</strong>. More than 80% of all uninsured individuals belong to low-income families — and without coverage, many cannot afford mental health treatment.</div>
+    </div>
+
+    <p>Recent policy changes compound this further. Cutbacks to Medicaid and the ACA Marketplace are projected to leave <strong>over 14 million more people uninsured by 2034</strong>. The populations most likely to be affected are the same ones already facing the largest gaps in mental health service usage.</p>
+  </div>
+
+  <hr class="prose-rule"/>
+
+  <!-- CULTURAL STIGMA -->
+  <div class="prose-section">
+    <div class="section-marker">
+      <span class="marker-num">03</span>
+      <span class="marker-line"></span>
+    </div>
+    <h2>Cultural Stigma</h2>
+    <p>Even when access to care exists, many individuals hesitate to seek it. In numerous communities, openly expressing mental health struggles is treated as taboo — a sign of personal weakness rather than a medical need. This makes conversations about mental health genuinely difficult to have, and help genuinely difficult to ask for.</p>
+    <p>Representation in the profession itself is part of the problem. <strong>Only around 14% of all psychologists in the United States are people of color</strong> — a figure that breaks down further when divided by specific groups. When patients cannot see themselves reflected in the people providing care, feelings of distrust and dissatisfaction can make an already difficult decision even harder.</p>
+  </div>
+
+  <hr class="prose-rule"/>
+
+  <!-- REPRESENTATION -->
+  <div class="prose-section">
+    <div class="section-marker">
+      <span class="marker-num">04</span>
+      <span class="marker-line"></span>
+    </div>
+    <h2>Representation in Healthcare</h2>
+    <p>Underrepresentation of minorities in mental health professions does not only affect patient trust — it can also affect the quality of care received. Healthcare providers, regardless of their own background, may carry <em>implicit biases</em> that shape how they engage with patients from different groups, often without being aware of those biases at all.</p>
+
+    <div class="pull-quote">
+      In a field with such low minority representation, racial biases — implicit or otherwise — have the potential to affect a disproportionately large share of the care being delivered.
+    </div>
+
+    <p>This is not a problem that can be resolved through individual effort alone. It requires systemic changes to who enters mental health professions, how providers are trained, and what structures exist to hold care quality accountable across patient populations.</p>
+  </div>
+
+  <hr class="prose-rule"/>
+
+  <!-- WHAT CAN BE DONE -->
+  <div class="action-section">
+    <div class="action-eyebrow">A path forward</div>
+    <h2>What Can Be Done?</h2>
+    <div class="action-pillars">
+      <div class="pillar">
+        <div class="pillar-num">1</div>
+        <p><strong>Access to quality healthcare is a right, not a privilege.</strong> Advocating for and supporting policies that expand access — particularly for low-income and uninsured populations — is one of the most direct levers available.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">2</div>
+        <p><strong>With diversity comes strength.</strong> Supporting initiatives that increase minority representation in mental health professions improves both patient trust and care quality across the board.</p>
+      </div>
+    </div>
+    <p>By voting for and advocating for policies built on these ideas, we move toward a system where mental healthcare is not only accessible — but where every person can receive it from a provider who understands their experience.</p>
+  </div>
+
+  <!-- REFERENCES -->
+  <div class="references">
+    <h3>References</h3>
+    <ol>
+      <li>Konstantopoulos, W., et al. (2023). Race, healthcare, and health disparities: A critical review and recommendations for advancing health equity. <em>Western Journal of Emergency Medicine, 24</em>(5), 906–918. https://doi.org/10.5811/westjem.58408</li>
+      <li>Substance Abuse and Mental Health Services Administration. (2021). Racial/Ethnic Differences in Mental Health Service Use Among Adults and Adolescents (2015–2019). U.S. Department of Health and Human Services.</li>
+      <li>National Alliance on Mental Illness. (2025). Mental health inequities: Racism and racial discrimination. NAMI.</li>
+      <li>Sheehan A., Walsh R., Liu R. (2024). Racial and ethnic trends in mental health service utilisation and perceived unmet need in the USA. <em>J Epidemiol Community Health, 78</em>(4), 228–234.</li>
+      <li>Tolbert, J., Cervantes, S., Bell, C., &amp; Damico, A. (2026). Key Facts about the Uninsured Population. Kaiser Family Foundation.</li>
+      <li>Mental Health America. (2025). Breaking down mental health stigma in BIPOC communities.</li>
+      <li>University of St. Augustine for Health Sciences. (2021). Diversity in Healthcare: The importance of representation.</li>
+    </ol>
+  </div>
+
+</article>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AXON<span>ACCESS</span></div>
+  <p class="footer-tagline">Neuroscience for every young mind · Made with curiosity</p>
+</footer>
+
+</body>
+</html>
